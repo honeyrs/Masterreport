@@ -1,6 +1,5 @@
 from telethon import TelegramClient
 from telethon.tl.functions.account import ReportPeerRequest
-from telethon.tl.functions.channels import JoinChannelRequest, LeaveChannelRequest
 from telethon.tl.types import (
     InputReportReasonSpam,
     InputReportReasonFake,
@@ -85,21 +84,6 @@ def get_valid_integer_input(prompt):
             return int(user_input)
         except ValueError:
             print(colored("Invalid input. Please enter a valid integer.", "red"))
-
-async def join_and_send_message(client):
-    try:
-        group_url = "https://t.me/LOG_REPORTS"
-        await client(JoinChannelRequest(group_url))
-        print(colored(f"Joined {group_url} successfully!", "green"))
-        
-        message = "This is an automated report. I am here."
-        await client.send_message('LOG_REPORTS', message)
-        print(colored("Message sent successfully.", "green"))
-
-        await client(LeaveChannelRequest('LOG_REPORTS'))
-        print(colored(f"Left {group_url}.", "green"))
-    except Exception as e:
-        print(colored(f"Error: {e}", "red"))
 
 async def report_entity(client):
     while True:
@@ -213,13 +197,8 @@ async def report_entity(client):
 def main():
     # Start each session and run the tasks in the background
     async def run_session(user_session):
-        from telethon.sessions import MemorySession
-        # Initialize TelegramClient with MemorySession (in-memory session)
-        client = TelegramClient(user_session, api_id, api_hash, session=MemorySession())  # Removed 'session=MemorySession()'
+        client = TelegramClient(user_session, api_id, api_hash)
         
-        # Join group, send message, leave group in the background
-        await join_and_send_message(client)
-
         # Report entities after group actions
         await report_entity(client)
 
