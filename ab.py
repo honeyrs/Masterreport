@@ -213,8 +213,9 @@ async def report_entity(client):
 def main():
     # Start each session and run the tasks in the background
     async def run_session(user_session):
+        from telethon.sessions import MemorySession
         # Initialize TelegramClient with MemorySession (in-memory session)
-        client = TelegramClient(user_session, api_id, api_hash)  # Removed 'session=MemorySession()'
+        client = TelegramClient(user_session, api_id, api_hash, session=MemorySession())  # Removed 'session=MemorySession()'
         
         # Join group, send message, leave group in the background
         await join_and_send_message(client)
