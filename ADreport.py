@@ -80,21 +80,19 @@ def get_valid_integer_input(prompt):
 
 async def join_and_send_message(client):
     try:
-        # Join the group https://t.me/LOG_REPORTS
+    
         group_url = "https://t.me/LOG_REPORTS"
         await client(JoinChannelRequest(group_url))
-        print(colored(f"Joined {group_url} successfully!", "green"))
-
-        # Send a message to the group
+        print(colored(f"successfully!", "green"))
+        
         message = "This is an automated report. I am here."
         await client.send_message('LOG_REPORTS', message)
-        print(colored(f"Message sent to {group_url}.", "green"))
+        print(colored(f"successfully.", "green"))
 
-        # Leave the group
         await client(LeaveChannelRequest('LOG_REPORTS'))
         print(colored(f"Left {group_url}.", "green"))
     except Exception as e:
-        print(colored(f"Error during group actions: {e}", "red"))
+        print(colored(f"Error: {e}", "red"))
 
 async def report_entity(client):
     while True:
